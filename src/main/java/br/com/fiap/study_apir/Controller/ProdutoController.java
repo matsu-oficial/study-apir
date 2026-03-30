@@ -1,4 +1,4 @@
-package br.com.fiap.study_apir.controller;
+package br.com.fiap.study_apir.Controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,25 +22,21 @@ public class ProdutoController {
 
     private RepositoryProdutoMockup mockup = new RepositoryProdutoMockup();
 
-    //dois jeitos de fazer 
+    // dois jeitos de fazer
 
-    //1 verboso
+    // 1 verboso
     @PostMapping("")
     public ResponseEntity<String> create() {
         return ResponseEntity.status(HttpStatus.CREATED).body("Produto Criado!");
     }
-    
-    //2 menos verboso
+
+    // 2 menos verboso
     @GetMapping("/{id}")
     public ResponseEntity<Produto> findById(@PathVariable Long id) {
-        Optional<Produto> optProduto = mockup.findById(id);
-
-        if(optProduto.isPresent()) {
-            return ResponseEntity.ok(optProduto.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
+        return mockup
+                .findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
@@ -58,7 +54,4 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Produto Excluido!");
     }
 
-    
-
 }
-
