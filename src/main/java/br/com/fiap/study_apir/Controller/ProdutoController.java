@@ -44,14 +44,18 @@ public class ProdutoController {
         return ResponseEntity.ok(mockup.findAll());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> update() {
         return ResponseEntity.ok("Produto Atualizado!");
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<String> delete() {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Produto Excluido!");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        if (mockup.deleteById(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
