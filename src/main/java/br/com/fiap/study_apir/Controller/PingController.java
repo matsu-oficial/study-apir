@@ -1,4 +1,4 @@
-package br.com.fiap.study_apir.Controller;
+package br.com.fiap.study_apir.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

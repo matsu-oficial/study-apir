@@ -33,4 +33,8 @@ public class RepositoryProdutoMockup {
         return produtos.removeIf(p -> p.getId().equals(id));
     }
 
+    public Produto create(Produto produto){
+        return null;
+    }
+
 }

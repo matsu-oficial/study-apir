@@ -1,4 +1,4 @@
-package br.com.fiap.study_apir.Controller;
+package br.com.fiap.study_apir.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,11 +23,8 @@ public class ProdutoController {
 
     private RepositoryProdutoMockup mockup = new RepositoryProdutoMockup();
 
-    // dois jeitos de fazer
-
-    // 1 verboso
-    @PostMapping("")
-    public ResponseEntity<String> create() {
+    @PostMapping
+    public ResponseEntity<String> create(@RequestBody Produto produto) {
         return ResponseEntity.status(HttpStatus.CREATED).body("Produto Criado!");
     }
 
