@@ -8,16 +8,16 @@ import java.util.Optional;
 import br.com.fiap.study_apir.model.Produto;
 
 public class RepositoryProdutoMockup {
+    private List<Produto> produtos = new ArrayList<>();
+    private long ID = 1l;
 
     public RepositoryProdutoMockup() {
-        produtos.add(new Produto(1L, "Banana",BigDecimal.valueOf(10.50)));
+        produtos.add(new Produto(ID++, "Banana",BigDecimal.valueOf(10.50)));
 
-        produtos.add(new Produto(3L,"Uva",BigDecimal.valueOf(17.50)));
+        produtos.add(new Produto(ID++,"Uva",BigDecimal.valueOf(17.50)));
 
-        produtos.add(new Produto(4L,"Maçã",BigDecimal.valueOf(15.23)));
+        produtos.add(new Produto(ID++,"Maçã",BigDecimal.valueOf(15.23)));
     }
-
-    private List<Produto> produtos = new ArrayList<>();
 
     public List<Produto> findAll() {
         return produtos;
@@ -34,7 +34,17 @@ public class RepositoryProdutoMockup {
     }
 
     public Produto create(Produto produto){
-        return null;
+        // Atribuir o id novo ao produto a ser cadastrado
+        produto.setId(ID++);
+        // Salvar no BD
+        produtos.add(produto);
+        // Retornar o produto novo
+        return produto;
+    }
+
+    public Produto update(Long id, Produto produto){
+        produto.getId(ID);
+        return produto;
     }
 
 }

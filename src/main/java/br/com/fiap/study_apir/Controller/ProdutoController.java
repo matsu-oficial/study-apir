@@ -24,8 +24,8 @@ public class ProdutoController {
     private RepositoryProdutoMockup mockup = new RepositoryProdutoMockup();
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Produto produto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body("Produto Criado!");
+    public ResponseEntity<Produto> create(@RequestBody Produto produto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(mockup.create(produto));
     }
 
     // 2 menos verboso
@@ -42,9 +42,9 @@ public class ProdutoController {
         return ResponseEntity.ok(mockup.findAll());
     }
 
-    @PutMapping
-    public ResponseEntity<String> update() {
-        return ResponseEntity.ok("Produto Atualizado!");
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> update(@PathVariable Long id, @RequestBody Produto produto) {
+        return ResponseEntity.ok(mockup.);
     }
 
     @DeleteMapping("/{id}")
