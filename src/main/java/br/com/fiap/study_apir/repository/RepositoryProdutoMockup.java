@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.fiap.study_apir.model.Produto;
+import org.springframework.stereotype.Service;
 
+import br.com.fiap.study_apir.model.Produto;
+@Service
 public class RepositoryProdutoMockup {
     private List<Produto> produtos = new ArrayList<>();
     private long ID = 1l;
@@ -42,9 +44,18 @@ public class RepositoryProdutoMockup {
         return produto;
     }
 
-    public Produto update(Long id, Produto produto){
-        produto.getId(ID);
-        return produto;
+    public boolean update(Long id, Produto produto){
+        Optional<Produto> optProduto = this.findById(id);
+
+        if (optProduto.isPresent()) {
+            Produto produtoAtual = optProduto.get();
+            produtoAtual.setNome(produto.getNome());
+            produtoAtual.setValor(produto.getValor());
+            return true;
+        }
+
+        return false;
+
     }
 
 }

@@ -3,6 +3,9 @@ package br.com.fiap.study_apir.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.Name;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,20 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.study_apir.model.Produto;
 import br.com.fiap.study_apir.repository.RepositoryProdutoMockup;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("api/${api.version}/produtos")
 public class ProdutoController {
 
-    private RepositoryProdutoMockup mockup = new RepositoryProdutoMockup();
+    @Autowired
+    private RepositoryProdutoMockup mockup;
 
     @PostMapping
+    @Operation(summary = "Criar Produto")
     public ResponseEntity<Produto> create(@RequestBody Produto produto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mockup.create(produto));
     }
 
-    // 2 menos verboso
     @GetMapping("/{id}")
+    @Operation(summary = "Verificar Produto")
     public ResponseEntity<Produto> findById(@PathVariable Long id) {
         return mockup
                 .findById(id)
@@ -38,16 +45,23 @@ public class ProdutoController {
     }
 
     @GetMapping
+    @Operation(summary = "Lista de Produtos")
     public ResponseEntity<List<Produto>> findAll() {
         return ResponseEntity.ok(mockup.findAll());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> update(@PathVariable Long id, @RequestBody Produto produto) {
-        return ResponseEntity.ok(mockup.);
+    @Operation(summary = "Atualizar Produto")
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Produto produto) {
+        if (mockup.update(id, produto)) {
+            return ResponseEntity.ok("Produto atualizado!");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Produto")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         if (mockup.deleteById(id)) {
             return ResponseEntity.noContent().build();
