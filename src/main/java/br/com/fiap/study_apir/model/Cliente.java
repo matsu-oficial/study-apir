@@ -1,7 +1,5 @@
 package br.com.fiap.study_apir.model;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -12,11 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Produto {
+public class Cliente {
 
     @Id
     private Long id;
     private String nome;
-    private BigDecimal valor;
 
 }
