@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.study_apir.model.Cliente;
 import br.com.fiap.study_apir.repository.ClienteRepository;
-import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("api/${api.version}/clientes")
@@ -26,48 +25,43 @@ public class ClienteController {
     @Autowired
     private ClienteRepository repository;
 
-    @PostMapping
-    @Operation(summary = "Criar Cliente")
+    // Insert into
+    @PostMapping("")
     public ResponseEntity<Cliente> create(@RequestBody Cliente cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(cliente));
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Verificar Cliente")
-    public ResponseEntity<Cliente> findById(@PathVariable Long id) {
-        return repository
-                .findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping
-    @Operation(summary = "Lista de Clientes")
+    // Select all
+    @GetMapping("")
     public ResponseEntity<List<Cliente>> findAll() {
         return ResponseEntity.ok(repository.findAll());
     }
 
+    // Select By Id
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> findById(@PathVariable Long id) {
+        return repository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar Cliente")
     public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente cliente) {
 
         Optional<Cliente> optCliente = repository.findById(id);
 
         if (optCliente.isPresent()) {
             cliente.setId(id);
-            Cliente clienteAlterado = repository.save(cliente);
+            Cliente clienteAlterado = repository.save(cliente); // O save retorna um objeto do tipo produto
             return ResponseEntity.ok(clienteAlterado);
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
+    // Delete
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar Cliente")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
-
     }
 }
