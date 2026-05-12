@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.study_apir.dto.ProdutoCreateRequest;
+import br.com.fiap.study_apir.dto.ProdutoMapper;
 import br.com.fiap.study_apir.model.Produto;
 import br.com.fiap.study_apir.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,15 +27,18 @@ public class ProdutoController {
     
     @Autowired
     private ProdutoService service;
+    
+    @Autowired
+    private ProdutoMapper produtoMapper;
 
     @PostMapping
     @Operation(summary = "Criar Produto")
-    public ResponseEntity<Produto> create(@RequestBody Produto produto) { // O @RequestBody indica que o argumento
+    public ResponseEntity<Produto> create(@RequestBody ProdutoCreateRequest dtoRequest) { // O @RequestBody indica que o argumento
                                                                           // recebido no parâmetro
         // virá no formato JSON. Dessa forma, minha aplicação irá tratar corretamente
         // Não esquecer: O Import do RequestBody correto é do spring framework
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createOrUpdate(produto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createOrUpdate(produtoMapper.toModel(dtoRequest)));
     }
 
     @GetMapping("/{id}")
